@@ -10,6 +10,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import com.example.clasedesmov2026.ui.Login.LoginScreen
 import com.example.clasedesmov2026.ui.theme.Clasedesmov2026Theme
+import androidx.navigation.compose.rememberNavController
+import com.example.clasedesmov2026.ui.navigation.AppNavigator
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,8 +19,12 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Clasedesmov2026Theme {
+
+                val navController =rememberNavController()
+
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    LoginScreen(
+                    AppNavigator(
+                        navController = navController,
                         modifier = Modifier.padding(innerPadding)
                     )
                 }

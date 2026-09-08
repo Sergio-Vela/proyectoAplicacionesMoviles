@@ -25,7 +25,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 fun LoginScreen(
     modifier: Modifier = Modifier,
     loginViewModel: LoginViewModel = viewModel(),
-    onLoginSuccess: (id: Int, nombre: String, apellido: String, usuario: String) -> Unit = { _, _, _, _ -> }
+    onLoginSuccess: (id: Int, nombre: String, apellido: String, usuario: String) -> Unit = { _, _, _, _ -> },
+    onRegisterClick: () -> Unit = {}
 ) {
     val state by loginViewModel.state.collectAsState()
 
@@ -73,6 +74,17 @@ fun LoginScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Ingresar")
+        }
+
+        Spacer(
+            modifier = Modifier.height(8.dp)
+        )
+
+        Button(
+            onClick = onRegisterClick,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Register")
         }
 
         Spacer(modifier = Modifier.height(16.dp))

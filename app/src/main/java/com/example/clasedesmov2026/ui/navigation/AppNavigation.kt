@@ -11,10 +11,14 @@ import com.example.clasedesmov2026.ui.Login.LoginScreen
 import com.example.clasedesmov2026.ui.Login.LoginViewModel
 import com.example.clasedesmov2026.ui.profile.ProfileScreen
 import com.example.clasedesmov2026.ui.profile.ProfileViewModel
+import com.example.clasedesmov2026.ui.register.RegisterScreen
+import com.example.clasedesmov2026.ui.register.RegisterViewModel
 
 
 object AppRoutes {
-    const val LOGIN = "Login"
+    const val LOGIN = "login"
+
+    const val REGISTER = "register"
     const val PROFILE = "profile/{id}/{nombre}/{apellido}/{usuario}"
 
     fun profileRoute(id: Int, nombre: String, apellido: String, usuario: String) : String {
@@ -40,18 +44,31 @@ fun AppNavigator(
                     navController.navigate(AppRoutes.profileRoute(id, nombre, apellido, usuario)) {
                         popUpTo(AppRoutes.LOGIN) { inclusive = true }
                     }
+                },
+                onRegisterClick = {
+                    navController.navigate(AppRoutes.REGISTER)
                 }
             )
         }
 
-//        composable(AppRoutes.PROFILE) { backStackEntry ->
-//            val nombre = backStackEntry.arguments?.getString("nombre") ?: ""
-//            val apellido = backStackEntry.arguments?.getString("apellido") ?: ""
-//            val usuario = backStackEntry.arguments?.getString("usuario") ?: ""
-//
-//            //profile screen
-//
-//        }
+        composable(AppRoutes.REGISTER) {
+
+            val registerViewModel: RegisterViewModel = viewModel()
+
+            RegisterScreen(
+                registerViewModel = registerViewModel,
+
+                onRegisterSuccess = {
+
+                    navController.navigate(AppRoutes.LOGIN) {
+                        popUpTo(AppRoutes.REGISTER) {
+                            inclusive = true
+                        }
+                    }
+                }
+            )
+        }
+
         composable(AppRoutes.PROFILE) { backStackEntry ->
 
             val id = backStackEntry.arguments
