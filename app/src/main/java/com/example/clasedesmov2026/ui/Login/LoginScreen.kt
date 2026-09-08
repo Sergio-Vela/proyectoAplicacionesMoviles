@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -23,9 +24,16 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
-    loginViewModel: LoginViewModel = viewModel()
+    loginViewModel: LoginViewModel = viewModel(),
+    onLoginSuccess: (id: Int, nombre: String, apellido: String, usuario: String) -> Unit = { _, _, _, _ -> }
 ) {
     val state by loginViewModel.state.collectAsState()
+
+    LaunchedEffect(state.loginExito) {
+        if (state.loginExito){
+            onLoginSuccess(state.id, state.nombre,state.apellido, state.user)
+        }
+    }
 
     Column (
         modifier = modifier.
@@ -42,9 +50,9 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(24.dp))
 
         OutlinedTextField(
-            value = state.email,
-            onValueChange = { loginViewModel.onEmailChange(it) },
-            label = { Text ("Email") },
+            value = state.user,
+            onValueChange = { loginViewModel.onUserChange(it) },
+            label = { Text ("Usuario") },
             modifier = Modifier.fillMaxWidth()
         )
 

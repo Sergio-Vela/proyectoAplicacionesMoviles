@@ -15,8 +15,8 @@ class LoginViewModel : ViewModel() {
     private val _state = MutableStateFlow(LoginState())
     val state: StateFlow<LoginState> = _state
 
-    fun onEmailChange(nuevoEmail: String) {
-        _state.value = _state.value.copy(email = nuevoEmail)
+    fun onUserChange(nuevoUsuario: String) {
+        _state.value = _state.value.copy(user = nuevoUsuario)
     }
 
     fun onPasswordChange(nuevoPassword: String) {
@@ -24,14 +24,28 @@ class LoginViewModel : ViewModel() {
     }
 
     fun onLoginClic() {
+
         viewModelScope.launch {
 
-            val resultado = repository.login(_state.value.email, _state.value.password)
+            val resultado = repository.login(_state.value.user, _state.value.password)
 
-            _state.value = _state.value.copy(
-                message = if (resultado.isSuccess) "¡Bienvenido desde app movil con patron MVVM!" else "Credenciales erroneas",
-                loginExito = resultado.isSuccess
-            )
+            resultado.onSuccess { response ->
+                _state.value = _state.value.copy(
+                    id = response.body.user.id,
+                    user = response.body.user.usuario,
+                    loginExito = true,
+                    token = response.body.token,
+                    message = response.standarResponse.message,
+                    nombre = response.body.user.nombre,
+                    apellido = response.body.user.apellido
+                )
+            }.onFailure { error ->
+                _state.value = _state.value.copy(
+                    loginExito = false,
+                    message = error.message.toString()
+                )
+            }
+
         }
     }
 }
