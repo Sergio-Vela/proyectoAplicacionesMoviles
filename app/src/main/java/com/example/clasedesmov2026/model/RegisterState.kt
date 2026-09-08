@@ -8,7 +8,10 @@ data class RegisterState(
     val fotoBase64: String? = null,
     val telefono: String = "",
     val correo: String = "",
-    val fechaNac: String = "",
+    //val fechaNac: String = "",
+    val dia: String = "",
+    val mes: String = "",
+    val anyo: String = "",
     val genero: String = "",
     val message: String = "",
     val registroExitoso: Boolean = false

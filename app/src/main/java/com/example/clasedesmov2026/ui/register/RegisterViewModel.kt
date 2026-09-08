@@ -40,8 +40,20 @@ class RegisterViewModel : ViewModel() {
         _state.value = _state.value.copy(correo = correo)
     }
 
-    fun onFechaNacChange(fechaNac: String) {
-        _state.value = _state.value.copy(fechaNac = fechaNac)
+//    fun onFechaNacChange(fechaNac: String) {
+//        _state.value = _state.value.copy(fechaNac = fechaNac)
+//    }
+
+    fun onDiaChange(dia: String) {
+        _state.value = _state.value.copy(dia = dia)
+    }
+
+    fun onMesChange(mes: String) {
+        _state.value = _state.value.copy(mes = mes)
+    }
+
+    fun onAnioChange(anio: String) {
+        _state.value = _state.value.copy(anyo = anio)
     }
 
     fun onGeneroChange(genero: String) {
@@ -64,7 +76,7 @@ class RegisterViewModel : ViewModel() {
                 fotoBase64 = _state.value.fotoBase64,
                 telefono = _state.value.telefono,
                 correo = _state.value.correo,
-                fechaNac = _state.value.fechaNac,
+                fechaNac = "${_state.value.anyo}-${_state.value.mes}-${_state.value.dia}",
                 genero = _state.value.genero
             )
 

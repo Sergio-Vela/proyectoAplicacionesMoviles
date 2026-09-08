@@ -91,7 +91,14 @@ fun AppNavigator(
                 nombre = nombre,
                 apellido = apellido,
                 usuario = usuario,
-                profileViewModel = viewModel
+                profileViewModel = viewModel,
+                onLogout = {
+                    navController.navigate(AppRoutes.LOGIN) {
+                        popUpTo(AppRoutes.PROFILE) {
+                            inclusive = true
+                        }
+                    }
+                }
             )
         }
 

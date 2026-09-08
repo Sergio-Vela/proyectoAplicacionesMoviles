@@ -18,6 +18,10 @@ import androidx.compose.material3.Button
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Modifier
+import androidx.compose.foundation.layout.Row
+import androidx.compose.material3.RadioButton
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 
 @Composable
 fun RegisterScreen(
@@ -37,6 +41,7 @@ fun RegisterScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(32.dp)
     ) {
 
@@ -124,31 +129,50 @@ fun RegisterScreen(
             modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(15.dp))
+
+        Text("Fecha de nacimiento")
 
         OutlinedTextField(
-            value = state.fechaNac,
-            onValueChange = {
-                registerViewModel.onFechaNacChange(it)
-            },
-            label = {
-                Text("Fecha de nacimiento")
-            },
-            modifier = Modifier.fillMaxWidth()
+            value = state.dia,
+            onValueChange = { registerViewModel.onDiaChange(it) },
+            label = { Text("Día") }
         )
-
-        Spacer(modifier = Modifier.height(8.dp))
 
         OutlinedTextField(
-            value = state.genero,
-            onValueChange = {
-                registerViewModel.onGeneroChange(it)
-            },
-            label = {
-                Text("Género")
-            },
-            modifier = Modifier.fillMaxWidth()
+            value = state.mes,
+            onValueChange = { registerViewModel.onMesChange(it) },
+            label = { Text("Mes") }
         )
+
+        OutlinedTextField(
+            value = state.anyo,
+            onValueChange = { registerViewModel.onAnioChange(it) },
+            label = { Text("Año") }
+        )
+
+
+        Spacer(modifier = Modifier.height(15.dp))
+
+        Text("Género")
+
+        Row {
+            RadioButton(
+                selected = state.genero == "M",
+                onClick = {
+                    registerViewModel.onGeneroChange("M")
+                }
+            )
+            Text("Masculino")
+
+            RadioButton(
+                selected = state.genero == "F",
+                onClick = {
+                    registerViewModel.onGeneroChange("F")
+                }
+            )
+            Text("Femenino")
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
 

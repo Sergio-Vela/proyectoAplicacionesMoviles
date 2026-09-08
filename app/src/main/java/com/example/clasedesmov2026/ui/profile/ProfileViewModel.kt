@@ -28,7 +28,7 @@ class ProfileViewModel : ViewModel() {
                     fotoBase64 = profile.body.fotoBase64,
                     telefono = profile.body.telefono ?: "",
                     correo = profile.body.correo ?: "",
-                    fechaNac = profile.body.fechaNac ?: "",
+                    fechaNac = profile.body.fechaNac?.substringBefore("T") ?: "",
                     genero = profile.body.genero ?: ""
                 )
 

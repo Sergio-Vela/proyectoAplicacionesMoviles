@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -21,7 +22,8 @@ fun ProfileScreen(
     nombre: String,
     apellido: String,
     usuario: String,
-    profileViewModel: ProfileViewModel
+    profileViewModel: ProfileViewModel,
+    onLogout: () -> Unit
 ) {
 
     val state by profileViewModel.state.collectAsState()
@@ -137,6 +139,15 @@ fun ProfileScreen(
             readOnly = true,
             modifier = Modifier.fillMaxWidth()
         )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+            onClick = onLogout,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Cerrar sesión")
+        }
 
         if (state.mensaje.isNotEmpty()) {
             Spacer(
