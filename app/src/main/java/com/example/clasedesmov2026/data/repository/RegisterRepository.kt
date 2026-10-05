@@ -1,4 +1,4 @@
-package com.example.clasedesmov2026.data
+package com.example.clasedesmov2026.data.repository
 
 import com.example.clasedesmov2026.data.remote.RetrofitClient
 import com.example.clasedesmov2026.model.request.register.RegisterRequest

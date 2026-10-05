@@ -2,8 +2,8 @@ package com.example.clasedesmov2026.ui.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.clasedesmov2026.data.ProfileRepository
-import com.example.clasedesmov2026.model.ProfileState
+import com.example.clasedesmov2026.data.repository.ProfileRepository
+import com.example.clasedesmov2026.model.state.ProfileState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch

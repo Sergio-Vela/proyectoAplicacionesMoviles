@@ -1,4 +1,4 @@
-package com.example.clasedesmov2026.model
+package com.example.clasedesmov2026.model.state
 
 data class RegisterState(
     val nombre: String = "",

@@ -2,8 +2,8 @@ package com.example.clasedesmov2026.ui.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.clasedesmov2026.data.RegisterRepository
-import com.example.clasedesmov2026.model.RegisterState
+import com.example.clasedesmov2026.data.repository.RegisterRepository
+import com.example.clasedesmov2026.model.state.RegisterState
 import com.example.clasedesmov2026.model.request.register.RegisterRequest
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
