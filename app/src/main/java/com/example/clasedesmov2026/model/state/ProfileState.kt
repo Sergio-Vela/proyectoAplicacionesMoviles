@@ -1,7 +1,10 @@
 package com.example.clasedesmov2026.model.state
 
+import android.graphics.Bitmap
+
 data class ProfileState(
-    val fotoBase64: String? = null,
+    val fotoPerfil: Bitmap? = null,
+    val fotoModificada: Boolean = false,
     val telefono: String = "",
     val correo: String = "",
     val fechaNac: String = "",

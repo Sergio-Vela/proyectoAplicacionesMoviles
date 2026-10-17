@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ClaseDesMov2026</string>
+
+    <!-- Login -->
+    <string name="login_titulo">Log In</string>
+    <string name="usuario">Username</string>
+    <string name="contrasena">Password</string>
+    <string name="ingresar">Log In</string>
+    <string name="registrar">Register</string>
+
+    <!-- Profile -->
+    <string name="perfil">Profile</string>
+    <string name="nombre">First Name</string>
+    <string name="apellido">Last Name</string>
+    <string name="telefono">Phone</string>
+    <string name="correo">Email</string>
+    <string name="fecha_nacimiento">Date of Birth</string>
+    <string name="genero">Gender</string>
+    <string name="cerrar_sesion">Log Out</string>
+
+    <!-- Register -->
+    <string name="registro">Register</string>
+    <string name="dia">Day</string>
+    <string name="mes">Month</string>
+    <string name="anio">Year</string>
+    <string name="masculino">Male</string>
+    <string name="femenino">Female</string>
+
+</resources>

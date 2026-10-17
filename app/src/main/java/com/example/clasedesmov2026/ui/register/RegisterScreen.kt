@@ -22,6 +22,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.RadioButton
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.ui.res.stringResource
+import com.example.clasedesmov2026.R
 
 @Composable
 fun RegisterScreen(
@@ -46,7 +48,7 @@ fun RegisterScreen(
     ) {
 
         Text(
-            text = "Registro",
+            text = stringResource(R.string.registro),
             style = MaterialTheme.typography.headlineMedium
         )
 
@@ -58,7 +60,7 @@ fun RegisterScreen(
                 registerViewModel.onNombreChange(it)
             },
             label = {
-                Text("Nombre")
+                Text(stringResource(R.string.nombre))
             },
             modifier = Modifier.fillMaxWidth()
         )
@@ -71,7 +73,7 @@ fun RegisterScreen(
                 registerViewModel.onApellidoChange(it)
             },
             label = {
-                Text("Apellido")
+                Text(stringResource(R.string.apellido))
             },
             modifier = Modifier.fillMaxWidth()
         )
@@ -84,7 +86,7 @@ fun RegisterScreen(
                 registerViewModel.onUsuarioChange(it)
             },
             label = {
-                Text("Usuario")
+                Text(stringResource(R.string.usuario))
             },
             modifier = Modifier.fillMaxWidth()
         )
@@ -97,7 +99,7 @@ fun RegisterScreen(
                 registerViewModel.onPasswordChange(it)
             },
             label = {
-                Text("Contraseña")
+                Text(stringResource(R.string.contrasena))
             },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth()
@@ -111,7 +113,7 @@ fun RegisterScreen(
                 registerViewModel.onTelefonoChange(it)
             },
             label = {
-                Text("Teléfono")
+                Text(stringResource(R.string.telefono))
             },
             modifier = Modifier.fillMaxWidth()
         )
@@ -124,37 +126,37 @@ fun RegisterScreen(
                 registerViewModel.onCorreoChange(it)
             },
             label = {
-                Text("Correo")
+                Text(stringResource(R.string.correo))
             },
             modifier = Modifier.fillMaxWidth()
         )
 
         Spacer(modifier = Modifier.height(15.dp))
 
-        Text("Fecha de nacimiento")
+        Text(stringResource(R.string.fecha_nacimiento))
 
         OutlinedTextField(
             value = state.dia,
             onValueChange = { registerViewModel.onDiaChange(it) },
-            label = { Text("Día") }
+            label = { Text(stringResource(R.string.dia)) }
         )
 
         OutlinedTextField(
             value = state.mes,
             onValueChange = { registerViewModel.onMesChange(it) },
-            label = { Text("Mes") }
+            label = { Text(stringResource(R.string.mes)) }
         )
 
         OutlinedTextField(
             value = state.anyo,
             onValueChange = { registerViewModel.onAnioChange(it) },
-            label = { Text("Año") }
+            label = { Text(stringResource(R.string.anio)) }
         )
 
 
         Spacer(modifier = Modifier.height(15.dp))
 
-        Text("Género")
+        Text(stringResource(R.string.genero))
 
         Row {
             RadioButton(
@@ -163,7 +165,7 @@ fun RegisterScreen(
                     registerViewModel.onGeneroChange("M")
                 }
             )
-            Text("Masculino")
+            Text(stringResource(R.string.masculino))
 
             RadioButton(
                 selected = state.genero == "F",
@@ -171,7 +173,7 @@ fun RegisterScreen(
                     registerViewModel.onGeneroChange("F")
                 }
             )
-            Text("Femenino")
+            Text(stringResource(R.string.femenino))
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -182,7 +184,7 @@ fun RegisterScreen(
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Registrarse")
+            Text(stringResource(R.string.registrar))
         }
 
         Spacer(modifier = Modifier.height(16.dp))

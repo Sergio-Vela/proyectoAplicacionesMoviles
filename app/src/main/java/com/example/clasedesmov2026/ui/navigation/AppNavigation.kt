@@ -13,7 +13,10 @@ import com.example.clasedesmov2026.ui.profile.ProfileScreen
 import com.example.clasedesmov2026.ui.profile.ProfileViewModel
 import com.example.clasedesmov2026.ui.register.RegisterScreen
 import com.example.clasedesmov2026.ui.register.RegisterViewModel
-
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 
 object AppRoutes {
     const val LOGIN = "login"
@@ -31,6 +34,8 @@ fun AppNavigator(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
+    var tokenUsuario by remember { mutableStateOf("") }
+
     NavHost(
         navController = navController,
         startDestination = AppRoutes.LOGIN,
@@ -40,7 +45,8 @@ fun AppNavigator(
             val viewModel: LoginViewModel = viewModel()
             LoginScreen(
                 loginViewModel = viewModel,
-                onLoginSuccess = { id, nombre, apellido, usuario ->
+                onLoginSuccess = { id, nombre, apellido, usuario, token ->
+                    tokenUsuario = token
                     navController.navigate(AppRoutes.profileRoute(id, nombre, apellido, usuario)) {
                         popUpTo(AppRoutes.LOGIN) { inclusive = true }
                     }
@@ -92,6 +98,7 @@ fun AppNavigator(
                 apellido = apellido,
                 usuario = usuario,
                 profileViewModel = viewModel,
+                token = tokenUsuario,
                 onLogout = {
                     navController.navigate(AppRoutes.LOGIN) {
                         popUpTo(AppRoutes.PROFILE) {

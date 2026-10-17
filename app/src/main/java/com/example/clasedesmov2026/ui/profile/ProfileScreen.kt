@@ -1,20 +1,43 @@
+
 package com.example.clasedesmov2026.ui.profile
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.OutlinedTextField
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.Button
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
+import com.example.clasedesmov2026.R
+import com.example.clasedesmov2026.ui.profile.components.FotoPerfil
+import com.example.clasedesmov2026.ui.profile.components.PersonalInfoCard
+import com.example.clasedesmov2026.ui.profile.util.cargarBitmapOrientado
 
 @Composable
 fun ProfileScreen(
@@ -22,141 +45,183 @@ fun ProfileScreen(
     nombre: String,
     apellido: String,
     usuario: String,
+    token: String,
     profileViewModel: ProfileViewModel,
-    onLogout: () -> Unit
+    onLogout: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
-
+    val context = LocalContext.current
     val state by profileViewModel.state.collectAsState()
 
+    var mostrarOpcionesFoto by remember {
+        mutableStateOf(false)
+    }
+
+    // Recibe la fotografía tomada con la cámara.
+    val cameraLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.TakePicturePreview()
+    ) { bitmap ->
+        if (bitmap != null) {
+            profileViewModel.onTakenPhoto(bitmap)
+        }
+    }
+
+    // Permite seleccionar una imagen de la galería.
+    val galleryLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri ->
+        if (uri != null) {
+            val bitmap = cargarBitmapOrientado(context, uri)
+
+            if (bitmap != null) {
+                profileViewModel.onTakenPhoto(bitmap)
+            } else {
+                Toast.makeText(
+                    context,
+                    "No se pudo abrir la imagen seleccionada",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
+    // Solicita permiso cuando se intenta abrir la cámara.
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        if (granted) {
+            cameraLauncher.launch(null)
+        } else {
+            Toast.makeText(
+                context,
+                "Se necesita permiso para utilizar la cámara",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    fun openCamera() {
+        val alreadyGranted = ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.CAMERA
+        ) == PackageManager.PERMISSION_GRANTED
+
+        if (alreadyGranted) {
+            cameraLauncher.launch(null)
+        } else {
+            permissionLauncher.launch(Manifest.permission.CAMERA)
+        }
+    }
+
+    // Carga la información del perfil al entrar a la pantalla.
     LaunchedEffect(id) {
         profileViewModel.cargarPerfil(id)
     }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .verticalScroll(rememberScrollState())
+            .padding(
+                horizontal = 20.dp,
+                vertical = 24.dp
+            ),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-
         Text(
-            text = "Perfil"
+            text = stringResource(R.string.perfil),
+            style = MaterialTheme.typography.headlineMedium,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onBackground
         )
 
-        Spacer(
-            modifier = Modifier.height(16.dp)
-        )
-
-        OutlinedTextField(
-            value = nombre,
-            onValueChange = {},
-            label = {
-                Text("Nombre")
+        // Componente que muestra la foto y los datos del usuario.
+        FotoPerfil(
+            foto = state.fotoPerfil,
+            nombre = nombre,
+            apellido = apellido,
+            usuario = usuario,
+            onCambiarFoto = {
+                mostrarOpcionesFoto = true
             },
-            readOnly = true,
-            modifier = Modifier.fillMaxWidth()
+            onGuardarCambios = {
+                profileViewModel.guardarPerfil(id, token)
+            }
         )
 
-        Spacer(
-            modifier = Modifier.height(8.dp)
+        // Componente que muestra los datos personales.
+        PersonalInfoCard(
+            telefono = state.telefono,
+            correo = state.correo,
+            fechaNac = state.fechaNac,
+            genero = state.genero
         )
 
-        OutlinedTextField(
-            value = apellido,
-            onValueChange = {},
-            label = {
-                Text("Apellido")
-            },
-            readOnly = true,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(
-            modifier = Modifier.height(8.dp)
-        )
-
-        OutlinedTextField(
-            value = usuario,
-            onValueChange = {},
-            label = {
-                Text("Usuario")
-            },
-            readOnly = true,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(
-            modifier = Modifier.height(8.dp)
-        )
-
-        OutlinedTextField(
-            value = state.telefono,
-            onValueChange = {},
-            label = {
-                Text("Teléfono")
-            },
-            readOnly = true,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(
-            modifier = Modifier.height(8.dp)
-        )
-
-        OutlinedTextField(
-            value = state.correo,
-            onValueChange = {},
-            label = {
-                Text("Correo")
-            },
-            readOnly = true,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(
-            modifier = Modifier.height(8.dp)
-        )
-
-        OutlinedTextField(
-            value = state.fechaNac,
-            onValueChange = {},
-            label = {
-                Text("Fecha de nacimiento")
-            },
-            readOnly = true,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(
-            modifier = Modifier.height(8.dp)
-        )
-
-        OutlinedTextField(
-            value = state.genero,
-            onValueChange = {},
-            label = {
-                Text("Género")
-            },
-            readOnly = true,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Button(
+        OutlinedButton(
             onClick = onLogout,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Cerrar sesión")
+            Text(stringResource(R.string.cerrar_sesion))
         }
 
         if (state.mensaje.isNotEmpty()) {
-            Spacer(
-                modifier = Modifier.height(8.dp)
-            )
-
             Text(
-                text = state.mensaje
+                text = state.mensaje,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.primary
             )
         }
+
+        Spacer(modifier = Modifier.height(8.dp))
+    }
+
+    // Diálogo para escoger de dónde obtener la foto.
+    if (mostrarOpcionesFoto) {
+        AlertDialog(
+            onDismissRequest = {
+                mostrarOpcionesFoto = false
+            },
+            title = {
+                Text(
+                    text = "Cambiar foto de perfil",
+                    fontWeight = FontWeight.Bold
+                )
+            },
+            text = {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    TextButton(
+                        onClick = {
+                            mostrarOpcionesFoto = false
+                            openCamera()
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text("Tomar fotografía")
+                    }
+
+                    TextButton(
+                        onClick = {
+                            mostrarOpcionesFoto = false
+                            galleryLauncher.launch("image/*")
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text("Elegir de la galería")
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        mostrarOpcionesFoto = false
+                    }
+                ) {
+                    Text("Cancelar")
+                }
+            }
+        )
     }
 }

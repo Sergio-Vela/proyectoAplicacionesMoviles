@@ -20,19 +20,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.ui.res.stringResource
+import com.example.clasedesmov2026.R
 
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
     loginViewModel: LoginViewModel = viewModel(),
-    onLoginSuccess: (id: Int, nombre: String, apellido: String, usuario: String) -> Unit = { _, _, _, _ -> },
+    onLoginSuccess: (id: Int, nombre: String, apellido: String, usuario: String, token: String) -> Unit = { _, _, _, _, _ -> },
     onRegisterClick: () -> Unit = {}
 ) {
     val state by loginViewModel.state.collectAsState()
 
     LaunchedEffect(state.loginExito) {
         if (state.loginExito){
-            onLoginSuccess(state.id, state.nombre,state.apellido, state.user)
+            onLoginSuccess(state.id, state.nombre,state.apellido, state.user, state.token)
         }
     }
 
@@ -44,7 +46,7 @@ fun LoginScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Iniciar Sesión",
+            text = stringResource(R.string.login_titulo),
             style = MaterialTheme.typography.headlineMedium
         )
 
@@ -53,7 +55,7 @@ fun LoginScreen(
         OutlinedTextField(
             value = state.user,
             onValueChange = { loginViewModel.onUserChange(it) },
-            label = { Text ("Usuario") },
+            label = { Text(stringResource(R.string.usuario)) },
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -62,7 +64,7 @@ fun LoginScreen(
         OutlinedTextField(
             value = state.password,
             onValueChange = { loginViewModel.onPasswordChange(it) },
-            label = { Text("Contraseña") },
+            label = { Text(stringResource(R.string.contrasena)) },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth()
         )
@@ -73,7 +75,7 @@ fun LoginScreen(
             onClick = { loginViewModel.onLoginClic() },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Ingresar")
+            Text(stringResource(R.string.ingresar))
         }
 
         Spacer(
@@ -84,7 +86,7 @@ fun LoginScreen(
             onClick = onRegisterClick,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Register")
+            Text(stringResource(R.string.registrar))
         }
 
         Spacer(modifier = Modifier.height(16.dp))

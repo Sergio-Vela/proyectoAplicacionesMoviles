@@ -1,3 +1,27 @@
 <resources>
     <string name="app_name">clasedesmov2026</string>
+    <!-- Login -->
+    <string name="login_titulo">Iniciar Sesión</string>
+    <string name="usuario">Usuario</string>
+    <string name="contrasena">Contraseña</string>
+    <string name="ingresar">Ingresar</string>
+    <string name="registrar">Registrarse</string>
+
+    <!-- Perfil -->
+    <string name="perfil">Perfil</string>
+    <string name="nombre">Nombre</string>
+    <string name="apellido">Apellido</string>
+    <string name="telefono">Teléfono</string>
+    <string name="correo">Correo</string>
+    <string name="fecha_nacimiento">Fecha de nacimiento</string>
+    <string name="genero">Género</string>
+    <string name="cerrar_sesion">Cerrar sesión</string>
+
+    <!-- Registro -->
+    <string name="registro">Registro</string>
+    <string name="dia">Día</string>
+    <string name="mes">Mes</string>
+    <string name="anio">Año</string>
+    <string name="masculino">Masculino</string>
+    <string name="femenino">Femenino</string>
 </resources>
