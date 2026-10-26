@@ -35,6 +35,7 @@ fun FotoPerfil(
     nombre: String,
     apellido: String,
     usuario: String,
+    fotoModificada: Boolean = false,
     onCambiarFoto: () -> Unit,
     onGuardarCambios: () -> Unit
 ) {
@@ -135,12 +136,14 @@ fun FotoPerfil(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Button(
-                onClick = onGuardarCambios,
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(12.dp)
-            ) {
-                Text("Guardar cambios")
+            if (fotoModificada) {
+                Button(
+                    onClick = onGuardarCambios,
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    Text("Guardar cambios")
+                }
             }
         }
     }

@@ -32,6 +32,7 @@ class ProfileViewModel : ViewModel() {
                     correo = profile.body.correo ?: "",
                     fechaNac = profile.body.fechaNac?.substringBefore("T") ?: "",
                     genero = profile.body.genero ?: "",
+                    editando = false,
                     mensaje = ""
                 )
 
@@ -62,6 +63,36 @@ class ProfileViewModel : ViewModel() {
         _state.value = _state.value.copy(
             fotoPerfil = bitmap,
             fotoModificada = true
+        )
+    }
+
+    fun onTelefonoChange(telefono: String) {
+        _state.value = _state.value.copy(
+            telefono = telefono
+        )
+    }
+
+    fun onCorreoChange(correo: String) {
+        _state.value = _state.value.copy(
+            correo = correo
+        )
+    }
+
+    fun onFechaNacChange(fechaNac: String) {
+        _state.value = _state.value.copy(
+            fechaNac = fechaNac
+        )
+    }
+
+    fun onGeneroChange(genero: String) {
+        _state.value = _state.value.copy(
+            genero = genero
+        )
+    }
+
+    fun onEditandoCambio(editando: Boolean) {
+        _state.value = _state.value.copy(
+            editando = editando
         )
     }
 
@@ -153,6 +184,7 @@ class ProfileViewModel : ViewModel() {
 
                 _state.value = _state.value.copy(
                     fotoModificada = false,
+                    editando = false,
                     mensaje = profile.standardResponse.message
                 )
             } else {

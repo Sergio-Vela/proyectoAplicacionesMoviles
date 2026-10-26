@@ -139,6 +139,7 @@ fun ProfileScreen(
         // Componente que muestra la foto y los datos del usuario.
         FotoPerfil(
             foto = state.fotoPerfil,
+            fotoModificada = state.fotoModificada,
             nombre = nombre,
             apellido = apellido,
             usuario = usuario,
@@ -155,7 +156,21 @@ fun ProfileScreen(
             telefono = state.telefono,
             correo = state.correo,
             fechaNac = state.fechaNac,
-            genero = state.genero
+            genero = state.genero,
+            editando = state.editando,
+            onTelefonoChange = { profileViewModel.onTelefonoChange(it) },
+            onCorreoChange = { profileViewModel.onCorreoChange(it) },
+            onFechaNacChange = { profileViewModel.onFechaNacChange(it) },
+            onGeneroChange = { profileViewModel.onGeneroChange(it) },
+            onGuardarClick = {
+                profileViewModel.guardarPerfil(id, token)
+            },
+            onCancelarClick = {
+                profileViewModel.cargarPerfil(id)
+            },
+            onEditarClick = {
+                profileViewModel.onEditandoCambio(true)
+            }
         )
 
         OutlinedButton(
